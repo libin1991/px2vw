@@ -1,53 +1,73 @@
-var sectionHeight = function() {
-  var total    = $(window).height(),
-      $section = $('section').css('height','auto');
+$(function() {
+  //****************px2vw start**************** 
+  //https://github.com/hezedu/px2vw
+  var WIDTH = 320,
+    FIXED = 5;
 
-  if ($section.outerHeight(true) < total) {
-    var margin = $section.outerHeight(true) - $section.height();
-    $section.height(total - margin - 20);
-  } else {
-    $section.css('height','auto');
+  var REG = /([1-9]\d*\.\d*|0\.\d*[1-9]\d|\d)+px/gi; //去零正则表达式
+
+  function trimEnd0(str) { //去掉未尾多余的0.
+    str = str.replace(/0+$/, '');
+    var lastIndex = str.length - 1;
+    return str[lastIndex] !== '.' ? str : str.substr(0, lastIndex);
   }
-}
 
-$(window).resize(sectionHeight);
+  function matchCtrl(width, fixed) {
+    fixed = fixed || FIXED;
+    width = width || WIDTH;
+    return function(m) { //replace匹配字符串处理
+      m = m.substr(0, m.length - 2);
+      m = Number(m);
+      m = (m / width) * 100;
+      m = m.toFixed(fixed);
+      return trimEnd0(m) + 'vw';
+    }
+  }
 
-$(document).ready(function(){
-  $("section h1, section h2").each(function(){
-    $("nav ul").append("<li class='tag-" + this.nodeName.toLowerCase() + "'><a href='#" + $(this).text().toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g,'') + "'>" + $(this).text() + "</a></li>");
-    $(this).attr("id",$(this).text().toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g,''));
-    $("nav ul li:first-child a").parent().addClass("active");
+  function px2vw(str, opt) {
+    opt = opt || {};
+    return str.replace(REG, matchCtrl(opt.width, opt.fixed));
+  }
+  //****************px2vw end****************
+
+
+  var $pxText = $('#pxText'),
+    $optWidth = $('#optWidth'),
+    $optFixed = $('#optFixed'),
+    $vwTest = $('#vwText'),
+    $btn_submit = $('#btn_submit');
+
+  var def_px_text = ".test{height:30px;}";
+  if (!$pxText.val()) {
+    $pxText.val(def_px_text);
+  }
+
+
+  function getOpt() {
+    return {
+      width: $optWidth.val(),
+      fixed: $optFixed.val()
+    };
+  }
+
+  function to() {
+    var str = $pxText.val(),
+      opts = getOpt();
+    $vwTest.val(px2vw(str, opts));
+  }
+  
+  $pxText.on('input', function() {
+    to();
+  });
+
+  $btn_submit.click(function() {
+    to();
+  });
+
+  $vwTest.click(function() {
+    $vwTest.select();
   });
   
-  $("nav ul li").on("click", "a", function(event) {
-    var position = $($(this).attr("href")).offset().top - 190;
-    $("html, body").animate({scrollTop: position}, 400);
-    $("nav ul li a").parent().removeClass("active");
-    $(this).parent().addClass("active");
-    event.preventDefault();    
-  });
-  
-  sectionHeight();
-  
-  $('img').load(sectionHeight);
-});
-
-fixScale = function(doc) {
-
-  var addEvent = 'addEventListener',
-      type = 'gesturestart',
-      qsa = 'querySelectorAll',
-      scales = [1, 1],
-      meta = qsa in doc ? doc[qsa]('meta[name=viewport]') : [];
-
-  function fix() {
-    meta.content = 'width=device-width,minimum-scale=' + scales[0] + ',maximum-scale=' + scales[1];
-    doc.removeEventListener(type, fix, true);
-  }
-
-  if ((meta = meta[meta.length - 1]) && addEvent in doc) {
-    fix();
-    scales = [.25, 1.6];
-    doc[addEvent](type, fix, true);
-  }
-};
+  to();
+  $pxText.focus();
+})
