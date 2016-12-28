@@ -1,6 +1,6 @@
 *{margin:0;padding:0;    box-sizing: border-box;}
 html , body, .main{height: 100%}
-body{font-family: 'Courier new','微软雅黑';}
+body, textarea{font-family: 'Courier new','微软雅黑';}
 .main{padding-top: 100px;background-color: #eee}
 .top{text-align: center;position: fixed;height:100px;z-index: 2;left: 0;top: 0;width: 100%;border-bottom: 1px solid #999}
 label{font-weight: bold;}
