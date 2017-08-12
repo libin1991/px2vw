@@ -1,8 +1,8 @@
 $(function() {
-  //****************px2vw start**************** 
+  //****************px2vw start****************
   //https://github.com/hezedu/px2vw
-  var WIDTH = 320,
-    FIXED = 5;
+  var WIDTH = 320;
+  //,FIXED = 5;
 
   var REG = /([1-9]\d*\.\d*|0\.\d*[1-9]\d|\d)+px/gi; //去零正则表达式
 
@@ -12,28 +12,26 @@ $(function() {
     return str[lastIndex] !== '.' ? str : str.substr(0, lastIndex);
   }
 
-  function matchCtrl(width, fixed) {
-    fixed = fixed || FIXED;
-    width = width || WIDTH;
+  function matchCtrl(width) {
     return function(m) { //replace匹配字符串处理
       m = m.substr(0, m.length - 2);
       m = Number(m);
       m = (m / width) * 100;
-      m = m.toFixed(fixed);
-      return trimEnd0(m) + 'vw';
+      //m = m.toFixed(fixed);
+      return trimEnd0(m.toString()) + 'vw';
     }
   }
 
-  function px2vw(str, opt) {
-    opt = opt || {};
-    return str.replace(REG, matchCtrl(opt.width, opt.fixed));
+  function px2vw(width, str) {
+    width = width || WIDTH;
+    return str.replace(REG, matchCtrl(width));
   }
   //****************px2vw end****************
 
 
   var $pxText = $('#pxText'),
     $optWidth = $('#optWidth'),
-    $optFixed = $('#optFixed'),
+    //$optFixed = $('#optFixed'),
     $vwTest = $('#vwText'),
     $btn_submit = $('#btn_submit');
 
@@ -43,19 +41,10 @@ $(function() {
   }
 
 
-  function getOpt() {
-    return {
-      width: $optWidth.val(),
-      fixed: $optFixed.val()
-    };
+  function to() {
+    $vwTest.val(px2vw($optWidth.val(), $pxText.val()));
   }
 
-  function to() {
-    var str = $pxText.val(),
-      opts = getOpt();
-    $vwTest.val(px2vw(str, opts));
-  }
-  
   $pxText.on('input', function() {
     to();
   });
@@ -67,7 +56,7 @@ $(function() {
   $vwTest.click(function() {
     $vwTest.select();
   });
-  
+
   to();
   $pxText.focus();
 })
