@@ -5,11 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Px2vw by hezedu</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <script src="//ajax.microsoft.com/ajax/jquery/jquery-2.1.0.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
   </head>
@@ -22,15 +17,16 @@
   <h1>Px2vw</h1>
 <div style="line-height:50px;font-size:16px;">
 
-<div style="width:50%;float:left;text-align: right;padding-right:10px">
+<div style="text-align: center;">
 <label>width:</label>
   <input type='text' min="0" max="20" id="optWidth" value="320"><span style="color:#666;"> px</span>
-</div>
-<div style="width:50%;float:left;text-align: left;padding-left:10px">
-  <label>fixed:</label>
-  <!-- <input type='number' min="0" max="20" id="optFixed" value="5"> -->
   <button id="btn_submit">OK</button>
-    </div>
+</div>
+<!-- <div style="width:50%;float:left;text-align: left;padding-left:10px">
+  <label>fixed:</label>
+   <input type='number' min="0" max="20" id="optFixed" value="5">
+
+    </div> -->
     </div>
     </div>
 
@@ -43,5 +39,6 @@
   <textarea id="vwText" style="background:#ebebe4"></textarea>
   </div>
   </div>
+  <script src="javascripts/main.js"></script>
   </body>
 </html>

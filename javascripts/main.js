@@ -1,4 +1,4 @@
-$(function() {
+(function() {
   //****************px2vw start****************
   //https://github.com/hezedu/px2vw
   var WIDTH = 320;
@@ -28,35 +28,37 @@ $(function() {
   }
   //****************px2vw end****************
 
+  function $(id){
+    return document.getElementById(id)
+  }
 
-  var $pxText = $('#pxText'),
-    $optWidth = $('#optWidth'),
-    //$optFixed = $('#optFixed'),
-    $vwTest = $('#vwText'),
-    $btn_submit = $('#btn_submit');
+  var $pxText = $('pxText'),
+    $optWidth = $('optWidth'),
+    $vwTest = $('vwText'),
+    $btn_submit = $('btn_submit');
 
   var def_px_text = ".test{height:30px;}";
-  if (!$pxText.val()) {
-    $pxText.val(def_px_text);
+  if (!$pxText.value) {
+    $pxText.value = def_px_text;
   }
 
 
   function to() {
-    $vwTest.val(px2vw($optWidth.val(), $pxText.val()));
+    $vwTest.value = px2vw($optWidth.value, $pxText.value);
   }
 
-  $pxText.on('input', function() {
+  $pxText.addEventListener('input', function() {
     to();
   });
 
-  $btn_submit.click(function() {
+  $btn_submit.addEventListener('click', function(){
     to();
-  });
+  })
 
-  $vwTest.click(function() {
+  $vwTest.addEventListener('click', function() {
     $vwTest.select();
   });
-
   to();
   $pxText.focus();
-})
+
+})();
