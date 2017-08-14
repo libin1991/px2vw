@@ -37,10 +37,10 @@
     $vwTest = $('vwText'),
     $btn_submit = $('btn_submit');
 
-  var def_px_text = ".test{height:30px;}";
-  if (!$pxText.value) {
-    $pxText.value = def_px_text;
-  }
+  // var def_px_text = "@media (max-width: 750px){.test{height:30px;}}";
+  // if (!$pxText.value) {
+  //   $pxText.value = def_px_text;
+  // }
 
 
   function to() {
